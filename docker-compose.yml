@@ -12,6 +12,11 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   app:
     build: .
@@ -19,12 +24,29 @@ services:
     ports:
       - "3001:3001"
     environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5432/user_post_service
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/user_post_service?schema=public
+      JWT_SECRET: your_development_jwt_secret
+      JWT_EXPIRATION: 1200
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    develop:
+      watch:
+        - path: ./src
+          action: sync
+          target: /usr/src/app/src
+        - path: ./prisma
+          action: sync
+          target: /usr/src/app/prisma
+        - path: package.json
+          action: rebuild
+        - path: package-lock.json
+          action: rebuild
+        - path: Dockerfile
+          action: rebuild
 
 volumes:
   db_data:
