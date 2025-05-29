@@ -1,0 +1,64 @@
+// This is your Prisma schema file
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String        @id // Email as ID
+  password      String
+  username      String
+  createdAt     DateTime      @default(now()) @db.Timestamp(3)
+  updatedAt     DateTime      @updatedAt @db.Timestamp(3)
+  posts         Post[]
+  comments      Comment[]
+  loginRecords  LoginRecord[]
+
+  @@map("users")
+}
+
+model Post {
+  id        String    @id @default(uuid())
+  title     String    @db.VarChar(30)
+  content   String    @db.VarChar(1000)
+  createdAt DateTime  @default(now()) @db.Timestamp(3)
+  updatedAt DateTime  @updatedAt @db.Timestamp(3)
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id])
+  comments  Comment[]
+
+  @@map("posts")
+  @@index([authorId])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String   @db.VarChar(500)
+  createdAt DateTime @default(now()) @db.Timestamp(3)
+  updatedAt DateTime @updatedAt @db.Timestamp(3)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+  @@index([authorId])
+  @@index([postId])
+}
+
+model LoginRecord {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  loginTime DateTime @default(now()) @db.Timestamp(3)
+  ipAddress String
+
+  @@map("login_records")
+  @@index([userId])
+  @@index([loginTime])
+}
+

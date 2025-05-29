@@ -55,6 +55,20 @@ npm run start:prod
 npm run docs
 ```
 
+### 5. Prisma 
+
+```bash
+# Initialize Prisma
+$ npx prisma init
+
+#Generate Prisma client after making changes to the schema
+$ npx prisma generate
+
+#Run database migrations
+$ npx prisma migrate dev --name init
+
+```
+
 ## 🔧 API Overview
 
 ### Authentication
