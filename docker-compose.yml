@@ -8,6 +8,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: user_post_service
+      SCHEMA: public
     ports:
       - "5432:5432"
     volumes:
@@ -24,8 +25,8 @@ services:
     ports:
       - "3001:3001"
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/user_post_service?schema=public
-      JWT_SECRET: your_development_jwt_secret
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/user_post_service?schema=public&sslmode=disable
+      JWT_SECRET: 01JWEYXKTQA005MDNHTH4VM2QE
       JWT_EXPIRATION: 1200
     volumes:
       - .:/usr/src/app
