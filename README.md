@@ -5,12 +5,6 @@
 <p align="center"><strong>Community API Backend</strong></p>
 <p align="center">A backend API built with NestJS, TypeScript, and PostgreSQL for user authentication, post & comment management, login tracking, and weekly login rankings.</p>
 
-<p align="center">
-  <a href="https://www.npmjs.com/package/@nestjs/core" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-  <a href="https://www.npmjs.com/package/@nestjs/core" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="License" /></a>
-  <a href="https://www.npmjs.com/package/@nestjs/common" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-</p>
-
 ---
 
 ## ✨ Features
@@ -54,6 +48,12 @@ npm run start:prod
 ```
 
 ---
+
+### 4. Generate Documentation
+
+```bash
+npm run docs
+```
 
 ## 🔧 API Overview
 
