@@ -3,10 +3,10 @@
 </p>
 
 <p align="center"><strong>Community API Backend</strong></p>
-<p align="center">A backend API built with NestJS, TypeScript, and PostgreSQL for user authentication, post & comment management, login tracking, and weekly login rankings.</p>
+<p align="center">A backend API developed using NestJS, TypeScript, and PostgreSQL that handles user authentication, post and comment management, login tracking, and weekly login rankings.</p>
 
 <p align="center">
-  <strong>🎯 Backend Senior Developer Interview Task - COMPLETED ✅</strong><br>
+  <strong>🎯 Interview assessment task – fully completed ✅</strong><br>
   <em>All 8 requirements successfully implemented and tested</em>
 </p>
 
