@@ -64,10 +64,10 @@ export class CommentsService {
     const take = 10;
 
     // Build the query
-    const query: any = {
+    const query = {
       where: { postId },
       take,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: 'desc' as const },
       select: {
         id: true,
         content: true,
@@ -78,13 +78,11 @@ export class CommentsService {
           },
         },
       },
+      ...(cursor && {
+        cursor: { id: cursor },
+        skip: 1,
+      }),
     };
-
-    // Add cursor if provided
-    if (cursor) {
-      query.cursor = { id: cursor };
-      query.skip = 1; // Skip the cursor
-    }
 
     // Fetch comments
     const comments = await this.prisma.comment.findMany(query);
@@ -93,7 +91,6 @@ export class CommentsService {
     const formattedComments = comments.map(comment => ({
       id: comment.id,
       content: comment.content,
-      //@ts-ignore
       username: comment.author?.username || 'Unknown User',
       createdAt: comment.createdAt,
     }));
