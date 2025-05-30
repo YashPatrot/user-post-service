@@ -25,7 +25,6 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async login(@Body() loginDto: LoginDto, @Req() req: Request) {
     const ipAddress = req.ip || '0.0.0.0';
-    console.log(ipAddress);
     return this.authService.login(loginDto, ipAddress);
   }
 }
