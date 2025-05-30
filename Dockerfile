@@ -14,6 +14,7 @@ COPY . .
 # Generate Prisma client
 RUN npx prisma generate
 
+# Do not run migrations here; handled at runtime in docker-compose
 
 EXPOSE 3001
 

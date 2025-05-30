@@ -93,6 +93,29 @@ npx prisma migrate dev --name <migration-name>
 npx prisma studio
 ```
 
+## ⚡️ First-Time Setup: Prisma Migration (Important!)
+
+**If you are running this project for the first time, you must create and apply the initial Prisma migration before using Docker or deploying.**
+
+### Why?
+Prisma requires migration files to exist before it can set up your database schema. The initial migration must be created manually and committed to the repository. This ensures that all environments (local, Docker, CI/CD) can apply the same schema changes consistently.
+
+### Steps:
+
+1. **Create the initial migration (only once, before first Docker build):**
+   ```bash
+   npx prisma migrate dev --name init
+   ```
+   - This will create the `prisma/migrations` folder and apply the schema to your local database.
+   - Commit the generated migration files to your repository.
+
+2. **Subsequent runs (including Docker/production):**
+   - The following command (already in Docker Compose) will apply all committed migrations:
+     ```sh
+     npx prisma migrate deploy
+     ```
+   - This is safe to run every time the container starts. If the database is up to date, it does nothing.
+
 ## 📚 API Documentation
 
 API documentation is available via Swagger UI at `/api` when the application is running.
@@ -143,19 +166,6 @@ user-post-service/
 └── README.md                # Project documentation
 ```
 
-## 🧪 Testing
-
-```bash
-# Run unit tests
-npm run test
-
-# Run e2e tests
-npm run test:e2e
-
-# Run test coverage
-npm run test:cov
-```
-
 ## 📚 Documentation Generation
 
 ```bash
@@ -171,6 +181,27 @@ This will generate documentation using Compodoc and serve it on a local server.
 * [Prisma Documentation](https://www.prisma.io/docs)
 * [TypeScript Documentation](https://www.typescriptlang.org/docs)
 * [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+
+---
+
+## 🐳 Docker & Hot-Reloading: Important Notes
+
+- **For reliable hot-reloading and instant code reflection in your running container, do NOT keep your project in a OneDrive, Google Drive, or any cloud-synced folder.**
+- Move your project to a local folder, such as `C:\dev\user-post-service`.
+- With the following Docker Compose setup:
+  ```yaml
+  volumes:
+    - .:/usr/src/app
+    - /usr/src/app/node_modules
+  ```
+  and your app running with `npm run start:dev`, code changes will be instantly reflected in the running container, and the app will reload automatically.
+- If you keep your project in a cloud-synced folder, Docker Desktop on Windows may not detect file changes, and hot-reloading will not work reliably.
+- After moving your project, use:
+  ```powershell
+  docker compose down
+  docker compose up --build
+  ```
+  to restart your containers from the new location.
 
 ---
 

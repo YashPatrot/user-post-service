@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:14.2
@@ -36,12 +34,6 @@ services:
         condition: service_healthy
     develop:
       watch:
-        - path: ./src
-          action: sync
-          target: /usr/src/app/src
-        - path: ./prisma
-          action: sync
-          target: /usr/src/app/prisma
         - path: package.json
           action: rebuild
         - path: package-lock.json
